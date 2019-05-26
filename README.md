@@ -1,2 +1,1 @@
-# openrecycle.org
-Open Recycle Blog
+# OpenRecycle.org website
