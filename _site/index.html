@@ -10,94 +10,61 @@
     <meta name="description" content="">
     
     <meta name="author" content="Madhu" />
-
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="stylesheet" type="text/css" href="css/jquery.classycountdown.min.css" />
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="js/jquery.classycountdown.min.js"></script>
-    <script src="js/jquery.knob.js"></script>
-    <script src="js/jquery.throttle.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
 
 </head>
 
 <body>
-    <header>
-        <section class="color">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <h1><i class="fa fa-clock-o" style="color:white"></i></h1>
-                        <h2>OpenRecycle.org</h2>
-                        <p>
-                        </p>
-                    </div>
+
+<header>
+    <h3> OpenRecycle - Source of truth for better recycling</h3>
+</header>
+<div class="feed">
+        <ul id="dataList"></ul>
+        <div class="templates">
+            <div id="listItem">
+                <div class="row1">
+                    <div class="title"></div>
                 </div>
-            </div>
-        </section>
-    </header>
-    <section class="ss-style-doublediagonal main-content">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 text-center">
-                    <h1 id="website-is-coming-soon">Website is coming soon</h1>
-<h2 id="watch-out-this-space-for-exciting-ways-to-recycle-and-save-planet-earth">Watch out this space for exciting ways to recycle and save planet Earth</h2>
-
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-12">
-
-                    <div class="countdown"></div>
-
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-12">
-
-                    <!-- not supported in Jekyll:
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Email">
-                        <span class="input-group-btn">
-                            <button class="btn btn-danger" type="button"><i class="fa fa-check"></i></button>
-                        </span>
-                    </div> -->
-                    <br> 
-                    <ul class="list-unstyled list-inline">
-                        
-                        
-                        
-                            
-                                        
-                    </ul>
-                </div>
+                <div class="row2"><div class="description"></div></div>
             </div>
         </div>
-    </section>
+</div>
 
+    <script type="text/javascript">
+        var content = document.getElementById('content');
 
-    <section class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 text-center">
-                    <p>2019 - OpenRecycle.org</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        $(document).ready(function() {
+            const feed = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.wastedive.com%2Ffeeds%2Fnews%2F";
 
+            $.getJSON(feed, function(res) {
+                if(res.status && res.status === 'ok' && res.items.length > 0){
+                    var listItemString = $('#listItem').html();
 
+                    res.items.forEach(function (item) {
+                        var listItem = $('<li>' + listItemString + '</li>');
+                        var listItemTitle = $('.title', listItem);
+                        listItemTitle.html('<h4><a href="' + item.link+ '" target="_blank">' + item.title + '</a></h4>');
+                        var listItemDesc = $('.description', listItem);
+                        listItemDesc.html(item.description);
+                        $('#dataList').append(listItem);
+                        console.log();
+                    });
+                }else {
+                    var listItem = $('<li> No News found!!!</li>');
+                    $('#dataList').append(listItem);
+                }
 
-    <script>
-        $('.countdown').ClassyCountdown({
-            theme: "red",
-            now: $.now() / 1000,
-            end: Date.UTC(2019, 7 - 1, 1, 0, 0, 0) / 1000
+            }, "jsonp");
+
         });
+
+        //
+
     </script>
 </body>
 
